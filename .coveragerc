@@ -1,0 +1,7 @@
+[run]
+source = ./ccartao
+
+[report]
+exclude_lines =
+    def __str__
+

@@ -1,0 +1,1 @@
+# Project installation and configuration script
