@@ -3,5 +3,5 @@ from pytest import mark
 
 @mark.test_models
 def test_model():
-    model = Model(name="Model")
+    model = Model(id=1)
     assert model is not None

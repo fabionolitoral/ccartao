@@ -1,5 +1,6 @@
 from ccartao.models.cartao import Cartao
 from ccartao.models.bandeira_cartao import BandeiraCartao
+from ccartao.models.exceptions import ModelError
 from pytest import mark
 
 @mark.test_models
@@ -88,5 +89,29 @@ def test_criar_cartao_com_bandeira_vazia():
     bandeira = BandeiraCartao(nome="")
     cartao = Cartao(numero_final="1234", bandeira=bandeira)
     assert cartao.bandeira.nome == ""
+
+#testar data de vencimento
+@mark.test_models
+def test_criar_cartao_com_data_vencimento():
+    bandeira = BandeiraCartao(nome="Visa")
+    cartao = Cartao(numero_final="1234", bandeira=bandeira, data_vencimento=10)
+    assert cartao.data_vencimento == 10
+
+@mark.test_models
+def test_alterar_data_vencimento_cartao():
+    bandeira = BandeiraCartao(nome="Visa")
+    cartao = Cartao(numero_final="1234", bandeira=bandeira, data_vencimento=10)
+    cartao.data_vencimento = 20
+    assert cartao.data_vencimento == 20
+
+@mark.test_models
+def test_alterar_data_vencimento_cartao_dia_32_e_apresentar_excecao_se_nao_estiver_entre_1_e_31():
+    bandeira = BandeiraCartao(nome="Visa")
+    cartao = Cartao(numero_final="1234", bandeira=bandeira, data_vencimento=32)
+    try:
+        cartao.data_vencimento = 32
+        assert False
+    except ModelError as e:
+        assert str(e) == "Data de vencimento deve estar entre 1 e 31."
 
 
